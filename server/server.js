@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const userController = require('./database/userController.js');
 const managerController = require('./database/managerController.js');
 const paymentRouter = require('./paymentRouter.js');
+const encryptionController = require('./encryptionController.js');
 /* Below is SocketIO stuff */
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -56,26 +57,24 @@ app.get('/allApartments', managerController.getAllApartments, (req, res) => {
 app.use('/payments', paymentRouter);
 
 /** SOCKET IO **/
-// io.on('connection', function(socket) {
-//   console.log('the user is connected phosure');
-//   socket.on('disconnect', () => {
-//     console.log('user is disconnected phosure ')
-//   });
+io.on('connection', function(socket) {
+  console.log('the user is connected phosure');
+  socket.on('disconnect', () => {
+    console.log('user is disconnected phosure ')
+  });
 
-//   socket.on('chat', (sentMessages) => {
-//     console.log(sentMessages);
-//     /*    setting up query   */
-//     app.post('/messages', userController.postMessages, (req, res)=>{
-//       res.status(200).json(res.locals.result);
-//     })
+  socket.on('chat', (sentMessages) => {
+    console.log(sentMessages);
+    /*    setting up query   */
+    userController.socketDB(sentMessages);
 
-//     io.emit('chat', sentMessages)
-//   });
-//   // io.on('chat', (sentMessages) => {
-//   //   console.log(sentMessages);
-//   //   io.emit('chat', sentMessages)
-//   // });
-// });
+    io.emit('chat', sentMessages)
+  });
+  // io.on('chat', (sentMessages) => {
+  //   console.log(sentMessages);
+  //   io.emit('chat', sentMessages)
+  // });
+});
 
 
 //error handling
