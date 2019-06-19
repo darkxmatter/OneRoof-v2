@@ -19,24 +19,24 @@ class MessageContainer extends Component {
 // or will this set an infinit loop?
   componentDidMount() {
     // this.interval = setInterval(() => {
-      fetch('/messages', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          sender_id: this.props.userId,
-          receiver_id: this.state.currentlyMessaging
-        }
-      })
-      .then(res => res.json())
-      .then(res => this.setState({
-        messages: res
-      }))
-      .catch(err => console.log(err));
+      // fetch('/messages', {
+      //   method: 'GET',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     sender_id: this.props.userId,
+      //     receiver_id: this.state.currentlyMessaging
+      //   }
+      // })
+      // .then(res => res.json())
+      // .then(res => this.setState({
+      //   messages: res
+      // }))
+      // .catch(err => console.log(err));
     // },1500);
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+   
   }
 
   changeMessageReceiver(user, name) {
@@ -49,7 +49,7 @@ class MessageContainer extends Component {
   render() {
     return (
       <div className="container">
-        <Chat userId={this.props.userId} receiver={this.state.currentlyMessaging} receiverName={this.state.currentlyMessagingName} messages={this.state.messages}/>
+        <Chat userId={this.props.userId} receiver={this.state.currentlyMessaging} receiverName={this.state.currentlyMessagingName} />
         {
           this.props.role === 'Manager' &&
           <UserList handleChange={this.changeMessageReceiver} userList={this.props.userList}/>

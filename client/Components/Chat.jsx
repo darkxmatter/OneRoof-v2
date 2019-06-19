@@ -5,12 +5,27 @@ class Chat extends Component {
     super(props);
     this.state = {
       messageToSend: '',
-      socket: io(),
+     
+      msgList: []
       
     }
+    this.socket = io();
     this.updateMessage = this.updateMessage.bind(this);
     // this.postMessage = this.postMessage.bind(this);
     this.socketPostMessage = this.socketPostMessage.bind(this);
+    this.listeningSocket = this.listeningSocket.bind(this);
+  }
+
+  listeningSocket() {
+       // this.setState({socket: io() });
+   const msgList = this.state.msgList;
+   console.log('logging props msgs:', this.state)
+   console.log('CHECKING MSG LIST', msgList)
+   this.socket.on('chat', messages => {
+     console.log('this is the socket on inside chat.jsx')
+    msgList.push(messages)
+    this.setState({msgList: msgList});
+  });
   }
 
   updateMessage(e) {
@@ -22,7 +37,7 @@ class Chat extends Component {
   socketPostMessage(e){
     e.preventDefault();
    
-    this.state.socket.emit('chat', {
+    this.socket.emit('chat', {
       text: this.state.messageToSend,
       sender_id: this.props.userId,
       receiver_id: this.props.receiver,
@@ -30,8 +45,24 @@ class Chat extends Component {
     });
   }
   componentDidMount(){
-    // this.setState({socket: io() });
-   
+    fetch('/messages', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        sender_id: this.props.userId,
+        receiver_id: this.props.receiver
+      }
+    })
+    .then(res => res.json())
+    .then(res => this.setState({
+      msgList: res
+    }))
+    .then(() => this.listeningSocket())
+    .catch(err => console.log(err));
+  }
+
+  componentDidUpdate(){
+    console.log(this.state);
   }
 
   // postMessage(e) {
@@ -54,15 +85,15 @@ class Chat extends Component {
   // }
 
   render() {
-    const msgList = this.props.messages.slice();
+    //const msgList = this.props.messages.slice();
     /*--------------Listener-----------------*/
- this.state.socket.on('chat', messages => msgList.push(messages));
+ 
  //this.setState({msgList: msgList});
     return (
       <div>
         <h4>Currently messaging: {this.props.receiverName}</h4>
         <div>
-          {msgList.map(message => {
+          {this.state.msgList.map(message => {
             return (<div>
               <h4>{message.sender_id === this.props.userId ? 'You' : this.props.receiverName}</h4>
               <p>{message.text}</p>
