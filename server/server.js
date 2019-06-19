@@ -64,10 +64,11 @@ io.on('connection', function(socket) {
   });
 
   socket.on('chat', (sentMessages) => {
-    console.log(sentMessages);
+    console.log('this is the msg from chat.js', sentMessages);
     /*    setting up query   */
-    userController.socketDB(sentMessages);
-
+    userController.socketDB(sentMessages)
+    
+    console.log('are we back out here fam?')
     io.emit('chat', sentMessages)
   });
   // io.on('chat', (sentMessages) => {
@@ -75,6 +76,7 @@ io.on('connection', function(socket) {
   //   io.emit('chat', sentMessages)
   // });
 });
+
 
 
 //error handling
