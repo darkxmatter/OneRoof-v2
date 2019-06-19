@@ -78,4 +78,15 @@ module.exports = {
       return next();
     });
   },
+
+  socketDB(message){
+    let queryString = 'INSERT INTO messages (text, sender_id, receiver_id, timestamp) VALUES ($1, $2, $3, $4) RETURNING *';
+    let values = [message.text, message.sender_id, message.receiver_id, message.timestamp];
+    db.query(queryString, values, (err, result) => {
+      if(err){
+        return err;
+      }
+      console.log(result);
+    })
+  }
 };
