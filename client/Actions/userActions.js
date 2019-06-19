@@ -63,7 +63,7 @@ export function signIn () {
     const url = '/login'
     const state = getState();
     return axios.post(url, {
-      body: {
+      data: {
         "name": state.user.username,
         "pwd": state.user.password
       }
@@ -79,6 +79,7 @@ export function signIn () {
           payload: userData
         })
       })
+      .catch(err => console.log(err))
     } 
 }
 

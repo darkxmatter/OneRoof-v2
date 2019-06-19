@@ -5,14 +5,17 @@ module.exports = {
     const queryString = 'INSERT INTO users (pwd, name, apt_id, role) VALUES ($1, $2, $3, $4) RETURNING _id';
     const values = [req.body.pwd, req.body.name, req.body.apt_id, req.body.role];
     db.query(queryString, values, (err, result)=>{
+      if (err) {
+        return err;
+      }
         res.locals.result = result.rows;
         return next();
-    })
+    });
   },
 
-  getUser(req, res, next) {
+  login(req, res, next) {
     const queryString = 'SELECT * FROM users WHERE name = $1';
-    const values = [req.body.name];
+    const values = [req.body.data.name];
     db.query(queryString, values, (err, result) => {
       if (err) {
         return next(err);
