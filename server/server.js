@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const userController = require('./database/userController.js');
 const managerController = require('./database/managerController.js');
 const paymentRouter = require('./paymentRouter.js');
-const encryptionController = require('./encryptionController.js');
+const encryptionController = require('./database/encryptionController.js');
 /* Below is SocketIO stuff */
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -21,7 +21,7 @@ app.post('/user',encryptionController.encryptPassword, userController.postUser, 
   res.status(200).json(res.locals.result);
 });
 
-app.post('/login', encryptionController.comparePassword, userController.getUser, (req, res) => {
+app.post('/login', encryptionController.comparePassword, userController.login, (req, res) => {
   res.status(200).json(res.locals.result);
 });
 
@@ -79,10 +79,12 @@ io.on('connection', function(socket) {
 
 //error handling
 app.use((req, res, next) => {
+  console.log(err)
   res.status(404).send("Sorry can't find that!")
 })
 
 app.use((err, req, res, next) =>{
+  console.log(err);
   res.status(400).json({'msg':err});
 })
 

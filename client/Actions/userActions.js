@@ -60,10 +60,10 @@ export function signup () {
 // will return data of apt_id, name, pwd, user_id, and role
 export function signIn () {
   return (dispatch, getState) => {
-    const url = '/user'
+    const url = '/login'
     const state = getState();
-    return axios.get(url, {
-      headers: {
+    return axios.post(url, {
+      data: {
         "name": state.user.username,
         "pwd": state.user.password
       }
@@ -79,6 +79,7 @@ export function signIn () {
           payload: userData
         })
       })
+      .catch(err => console.log(err))
     } 
 }
 
