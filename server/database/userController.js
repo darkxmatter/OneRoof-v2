@@ -14,13 +14,14 @@ module.exports = {
   },
 
   login(req, res, next) {
-    const queryString = 'SELECT * FROM users WHERE name = $1';
-    const values = [req.body.data.name];
+    const queryString = 'SELECT * FROM users WHERE name = $1 AND pwd = $2';
+    const values = [req.body.data.name, res.locals.encryptedPassword];
     db.query(queryString, values, (err, result) => {
       if (err) {
         return next(err);
       }
       res.locals.result = result.rows;
+      res.locals.username = req.body.data.name;
       return next();
     });
   },
