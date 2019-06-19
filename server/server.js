@@ -5,6 +5,10 @@ const bodyParser = require('body-parser');
 const userController = require('./database/userController.js');
 const managerController = require('./database/managerController.js');
 const paymentRouter = require('./paymentRouter.js');
+/* Below is SocketIO stuff */
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -12,11 +16,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '../')));
 
 // routes for multiple user types
-app.post('/user', userController.postUser, (req, res) => {
+app.post('/user',encryptionController.encryptPassword, userController.postUser, (req, res) => {
   res.status(200).json(res.locals.result);
 });
 
-app.get('/user', userController.getUser, (req, res) => {
+app.post('/login', encryptionController.comparePassword, userController.getUser, (req, res) => {
   res.status(200).json(res.locals.result);
 });
 
@@ -51,6 +55,29 @@ app.get('/allApartments', managerController.getAllApartments, (req, res) => {
 
 app.use('/payments', paymentRouter);
 
+/** SOCKET IO **/
+// io.on('connection', function(socket) {
+//   console.log('the user is connected phosure');
+//   socket.on('disconnect', () => {
+//     console.log('user is disconnected phosure ')
+//   });
+
+//   socket.on('chat', (sentMessages) => {
+//     console.log(sentMessages);
+//     /*    setting up query   */
+//     app.post('/messages', userController.postMessages, (req, res)=>{
+//       res.status(200).json(res.locals.result);
+//     })
+
+//     io.emit('chat', sentMessages)
+//   });
+//   // io.on('chat', (sentMessages) => {
+//   //   console.log(sentMessages);
+//   //   io.emit('chat', sentMessages)
+//   // });
+// });
+
+
 //error handling
 app.use((req, res, next) => {
   res.status(404).send("Sorry can't find that!")
@@ -60,4 +87,4 @@ app.use((err, req, res, next) =>{
   res.status(400).json({'msg':err});
 })
 
-app.listen(3000);
+server.listen(3000);
