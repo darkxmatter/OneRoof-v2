@@ -18,7 +18,7 @@ class MessageContainer extends Component {
 // can we run a component did mount with a set time out on the get request?
 // or will this set an infinit loop?
   componentDidMount() {
-    this.interval = setInterval(() => {
+    // this.interval = setInterval(() => {
       fetch('/messages', {
         method: 'GET',
         headers: {
@@ -32,7 +32,7 @@ class MessageContainer extends Component {
         messages: res
       }))
       .catch(err => console.log(err));
-    },1500);
+    // },1500);
   }
 
   componentWillUnmount() {

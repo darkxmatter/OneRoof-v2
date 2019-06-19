@@ -83,6 +83,7 @@ module.exports = {
   },
 
   socketDB(message){
+    console.log('WE ARE HERE FAM, INSIDE THE USERDb')
     let queryString = 'INSERT INTO messages (text, sender_id, receiver_id, timestamp) VALUES ($1, $2, $3, $4) RETURNING *';
     let values = [message.text, message.sender_id, message.receiver_id, message.timestamp];
     db.query(queryString, values, (err, result) => {
@@ -90,6 +91,6 @@ module.exports = {
         return err;
       }
       console.log(result);
-    })
+    });
   }
 };
