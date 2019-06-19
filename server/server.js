@@ -70,6 +70,7 @@ io.on('connection', function(socket) {
     
     console.log('are we back out here fam?')
     io.emit('chat', sentMessages)
+
   });
   // io.on('chat', (sentMessages) => {
   //   console.log(sentMessages);
