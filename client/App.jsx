@@ -32,16 +32,26 @@ class App extends Component {
   
   render() {
 
-    const logComponent = <Login signIn={this.props.signIn} apt={this.props.apt} role={this.props.role} username={this.props.username} password={this.props.password} 
-    aptList={this.props.aptList} updateApt={this.props.updateApt} updateRole={this.props.updateRole} updateUsername={this.props.updateUsername} updatePassword={this.props.updatePassword} signup={this.props.signup}/>;
-
-    const mainContainer = <MainContainer key="mainCon2" />;
-
-
     return(
       <div className="App">
         <h1>Welcome to NewtRoof</h1>
-        { this.props.login === false ? logComponent : mainContainer }
+        { this.props.login === false ? (
+          <Login 
+            signIn={this.props.signIn}
+            apt={this.props.apt}
+            role={this.props.role}
+            username={this.props.username}
+            password={this.props.password} 
+            aptList={this.props.aptList}
+            updateApt={this.props.updateApt}
+            updateRole={this.props.updateRole}
+            updateUsername={this.props.updateUsername}
+            updatePassword={this.props.updatePassword}
+            signup={this.props.signup}
+          /> 
+        ) : ( 
+          <MainContainer key="mainCon2" />
+        )}
       </div>
     )
   }

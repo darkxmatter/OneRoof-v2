@@ -5,11 +5,8 @@ const ManagerPaymentDisplay = (props) => {
     let overdueDisplay = [];
     const paymentsOverdue = props.paymentsOverdue;
     const currentPayments = props.currentPayments;
-    paymentsOverdue.forEach(element => {
-        overdueDisplay.push(<li>{'Apt#: '} {JSON.stringify(element.apt_id)} {' Month: '} {props.monthTranslate(element.month)} {' Paid: '} {JSON.stringify(element.sent)} </li>);
-    })
     currentPayments.forEach(element => {
-      currentDisplay.push(<li>{'Apt#: '} {JSON.stringify(element.apt_id)} {' Month: '} {props.monthTranslate(element.month)} {' Paid: '} {JSON.stringify(element.sent)} {' Received: '} {JSON.stringify(element.received)}</li>);
+      currentDisplay.push();
   })
 
   
@@ -18,13 +15,25 @@ const ManagerPaymentDisplay = (props) => {
         <div>
           Current Month Payments
           <ul>
-            {currentDisplay}
+            {props.currentPayments.map(element => {
+              return (
+                <li>
+                  {'Apt#: '} {JSON.stringify(element.apt_id)} {' Month: '} {props.monthTranslate(element.month)} {' Paid: '} {JSON.stringify(element.sent)} {' Received: '} {JSON.stringify(element.received)}
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div>
           Overdue Payments
           <ul>
-            {overdueDisplay}
+            {props.paymentsOverdue.map(element => {
+              return (
+                <li>
+                  {'Apt#: '} {JSON.stringify(element.apt_id)} {' Month: '} {props.monthTranslate(element.month)} {' Paid: '} {JSON.stringify(element.sent)}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

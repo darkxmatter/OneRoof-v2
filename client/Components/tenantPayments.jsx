@@ -33,12 +33,10 @@ class TenantPayments extends Component {
   
   
   render() {
-    const paymentDisplay = <PaymentDisplay paymentHistory = {this.state.paymentHistory}/>
-    const makePayment = <MakePayment aptId = {this.props.aptId} updatePaymentDisplay={this.updatePaymentDisplay}/>
     return (
       <div>
-        {paymentDisplay}
-        {makePayment}
+        <PaymentDisplay paymentHistory = {this.state.paymentHistory}/>
+        <MakePayment aptId = {this.props.aptId} updatePaymentDisplay={this.updatePaymentDisplay}/>
       </div>
     )
   }

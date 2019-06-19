@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import from child components...
-import ManContainer from './ManagerContainer.jsx';
+import ManagerContainer from './ManagerContainer.jsx';
 import TenantContainer from './TenantContainer.jsx';
 
 const mapStateToProps = store => ({
@@ -21,15 +21,11 @@ class MainContainer extends Component {
   }
 
   render() {
-    
-    const manContainer = <ManContainer key="manCon1" />
-    const tenantContainer = <TenantContainer key="tenCon2" />
-
     return(
         <div className="container">
           <div className="outerBox">
             <h1 id="header">{this.props.username}'s {this.props.role} Dashboard</h1>
-            { this.props.role === 'Manager' ? manContainer : tenantContainer }
+            { this.props.role === 'Manager' ? <ManagerContainer key="manCon1" /> : <TenantContainer key="tenCon2" /> }
           </div>
         </div>
     )

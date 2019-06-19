@@ -37,17 +37,17 @@ class ManagerContainer extends Component {
     return (
       <Router>
         <div>
-      <nav id='manLinks'>
-        <Link to={`/payments`}>Payments</Link>
-        <Link to={`/chat`}>Messages</Link>
-        <Link to={`/events`}>Events</Link>
-      </nav>
+          <nav id='manLinks'>
+            <Link to={`/payments`}>Payments</Link>
+            <Link to={`/chat`}>Messages</Link>
+            <Link to={`/events`}>Events</Link>
+          </nav>
 
-      <main>
-        <Route path="/payments" render={(props) => <PaymentContainer userList={this.state.userList} aptList={this.props.aptList} userId={this.props.userId} role={this.props.role} isAuthed={true} />} />
-        <Route path="/chat" render={(props) => <MessageContainer userList={this.state.userList} userId={this.props.userId} role={this.props.role} isAuthed={true}/>} />
-        <Route path="/events" render={(props) => <EventsContainer userList={this.state.userList} userId={this.props.userId} role={this.props.role} isAuthed={true}/>} />
-      </main>
+          <main>
+            <Route path="/payments" render={(props) => <PaymentContainer userList={this.state.userList} aptList={this.props.aptList} userId={this.props.userId} role={this.props.role} isAuthed={true} />} />
+            <Route path="/chat" render={(props) => <MessageContainer userList={this.state.userList} userId={this.props.userId} role={this.props.role} isAuthed={true}/>} />
+            <Route path="/events" render={(props) => <EventsContainer userList={this.state.userList} userId={this.props.userId} role={this.props.role} isAuthed={true}/>} />
+          </main>
         </div>
       </Router>
     );

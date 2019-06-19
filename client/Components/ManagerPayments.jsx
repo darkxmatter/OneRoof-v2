@@ -83,20 +83,29 @@ class ManagerPayments extends Component {
 
 
   render() {
-    const manPayDisplay = <ManagerPaymentDisplay paymentsOverdue={this.state.paymentsOverdue} monthTranslate={this.props.monthTranslate} currentPayments={this.state.currentPayments} monthKey={this.props.monthKey}/>
-    const createPayments = <CreatePayments createPay={this.createPay} />
-    const receivePayments = <ReceivePayments aptList={this.props.aptList} monthTranslate={this.props.monthTranslate} receivePay={this.receivePay} updateApt={this.updateApt} monthKey={this.props.monthKey} updateMonth={this.updateMonth} />
 
     return (
       <div>
         <div id='manPayDiv'>
-          {manPayDisplay}
+          <ManagerPaymentDisplay
+            paymentsOverdue={this.state.paymentsOverdue} 
+            monthTranslate={this.props.monthTranslate} 
+            currentPayments={this.state.currentPayments} 
+            monthKey={this.props.monthKey}
+          />
         </div>
           <div id='createPayDiv'>
-            {createPayments}
+            <CreatePayments createPay={this.createPay} />
           </div>
           <div id='receivePayDiv'>
-            {receivePayments} 
+            <ReceivePayments
+              aptList={this.props.aptList} 
+              monthTranslate={this.props.monthTranslate} 
+              receivePay={this.receivePay} 
+              updateApt={this.updateApt} 
+              monthKey={this.props.monthKey} 
+              updateMonth={this.updateMonth} 
+            />
           </div>
       </div>
     )
