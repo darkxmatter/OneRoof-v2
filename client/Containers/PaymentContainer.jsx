@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import TenantPayments from '../Components/tenantPayments.jsx';
+import TenantPayments from '../Components/TenantPayments.jsx';
 import ManagerPayments from '../Components/ManagerPayments.jsx';
 
 
