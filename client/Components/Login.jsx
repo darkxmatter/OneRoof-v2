@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
   signup: () => dispatch(userActions.signup()),
   signIn: () => dispatch(userActions.signIn()),
   updateApt: (apt) => dispatch(userActions.updateApt(apt)),
-  updateRole: (role) => dispatch(userActions.updateRole(role)),
+  updateRole: (role) => dispatch(userActions.updateRole(role))
 })
 
 const Login = props => {

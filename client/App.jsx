@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MainContainer from './Containers/MainContainer.jsx'
 import Login from './Components/Login.jsx';
-import { Route, Switch } from 'react-router-dom';
+import AuthenticatedComponent from './Components/AuthenticatedComponent.jsx';
+import {Switch, Route} from 'react-router-dom';
 
 
 const mapStateToProps = store => ({
@@ -23,11 +24,12 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/content" component={MainContainer} />
         </Switch> */}
-        { this.props.login === false ? (
-          <Login /> 
-        ) : ( 
-          <MainContainer />
-        )}
+        <Switch>
+          <Route path='/login' component={Login} />
+          <AuthenticatedComponent>
+            <Route path='/content' component={MainContainer}/> 
+          </AuthenticatedComponent>
+        </Switch>
       </div>
     )
   }

@@ -26,6 +26,11 @@ export const updateRole = (value) => ({
   payload: value
 })
 
+export const updateId = id => ({
+  type: 'UPDATE_ID',
+  payload: id
+});
+
 
 // on sign up, a post request is sent/stored into our database. 
 // will return data of apt_id, name, pwd, and role
@@ -82,4 +87,5 @@ export function signIn () {
       .catch(err => console.log(err))
     } 
 }
+
 
