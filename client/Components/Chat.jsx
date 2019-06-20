@@ -13,7 +13,6 @@ class Chat extends Component {
       messages: [],
     }
     this.socket = io();
-
     this.updateMessage = this.updateMessage.bind(this);
     this.runFetch = this.runFetch.bind(this);
     this.socketPostMessage = this.socketPostMessage.bind(this);
@@ -37,7 +36,6 @@ class Chat extends Component {
   }
   
   changeMessageReceiver(user, name) {
-    this.socket.emit('join', user);
     this.setState({
       currentlyMessaging: user,
       currentlyMessagingName: name
@@ -46,7 +44,7 @@ class Chat extends Component {
 
   listeningSocket() {
        // this.setState({socket: io() });
-    const msgList = this.state.msgList.slice();
+    const msgList = this.state.msgList;
     /*--------------Listener-----------------*/
     this.socket.on('chat', messages => {
       msgList.push(messages)
@@ -62,17 +60,13 @@ class Chat extends Component {
 
   socketPostMessage(e){
     e.preventDefault();
-    const msg = {
+   
+    this.socket.emit('chat', {
       text: this.state.messageToSend,
       sender_id: this.props.userId,
       receiver_id: this.state.currentlyMessaging,
       timestamp: null
-    };
-
-    if(this.props.role === 'manager') {
-      this.socket.emit('chat', msg, this.state.currentlyMessaging);
-    }
-    else this.socket.emit('chat', msg, this.props.userId);
+    });
   }
   componentDidMount(){
     fetch('/messages', {
@@ -88,16 +82,12 @@ class Chat extends Component {
       msgList: res
     }))
     .then(() => this.listeningSocket())
-    .then(() => {if(this.props.role !== 'manager') {
-      this.socket.on('join', this.props.userId)
-    }})
     .catch(err => console.log(err));
-
-    
   }
 
   componentDidUpdate(){
     console.log(this.state);
+
   }
 
   render() {
