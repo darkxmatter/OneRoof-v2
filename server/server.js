@@ -74,6 +74,7 @@ io.on('connection', function(socket) {
   socket.on('disconnect', () => {
     console.log('user is disconnected phosure ')
   });
+
   socket.on('join', (userId) => {
     socket.join(userId);
   });
