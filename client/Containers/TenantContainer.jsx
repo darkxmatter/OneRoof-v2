@@ -26,10 +26,13 @@ class TenantContainer extends Component {
     this.state = {
       eventList : []
     };
+    this.controller = new AbortController();
+    this.signal = this.controller.signal;
   }
 
   componentDidMount (){
     fetch('/event', {
+      signal: this.signal,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -41,6 +44,10 @@ class TenantContainer extends Component {
       .then(res => this.setState({
         eventList: res
       }))
+  }
+
+  componentWillUnmount() {
+    this.controller.abort();
   }
 
   render() {

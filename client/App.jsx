@@ -20,10 +20,6 @@ class App extends Component {
     return(
       <div className="App">
         <h1>Welcome to NewtRoof</h1>
-        {/* <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/content" component={MainContainer} />
-        </Switch> */}
         <Switch>
           <Route path='/login' component={Login} />
           <AuthenticatedComponent>
