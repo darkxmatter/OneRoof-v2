@@ -30,6 +30,7 @@ module.exports = {
           return next(err);
         }
         if (isMatch) {
+          res.locals.encryptedPassword = result.rows[0].pwd;
           return next();
         }
         //redirect???
