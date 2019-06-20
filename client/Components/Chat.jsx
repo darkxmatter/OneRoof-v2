@@ -33,16 +33,27 @@ class Chat extends Component {
       msgList: res
     }))
   }
+
+
   
   changeMessageReceiver(user, name) {
     console.log('user selected:', user);
-    console.log()
+    // OLDER SOLUTION
+    let lastRoom = this.state.currentlyMessaging;
     this.setState({
       currentlyMessaging: user,
       currentlyMessagingName: name
-    }, ()=>{this.runFetch()});
-    this.socket.emit('join', user);
+    },
+    ()=>{
+      this.runFetch();
+      this.socket.emit('join', user)});
+      // if(this.props.userId !== lastRoom) this.socket.leave(lastRoom);
+    
+    if(this.props.userId !== lastRoom) this.socket.emit('unjoin', lastRoom);
   }
+   
+
+
 
   listeningSocket() {
        // this.setState({socket: io() });
