@@ -2,21 +2,26 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const userController = require('./database/userController.js');
 const managerController = require('./database/managerController.js');
 const paymentRouter = require('./paymentRouter.js');
 const encryptionController = require('./database/encryptionController.js');
 const tokenController = require('./tokenController.js');
-/* Below is SocketIO stuff */
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../')));
+
+app.get('/verifyToken', tokenController.checkToken, (req, res) => {
+  res.send(req.token);
+});
 
 // routes for multiple user types
 app.post('/user',encryptionController.encryptPassword, userController.postUser, (req, res) => {
@@ -24,7 +29,7 @@ app.post('/user',encryptionController.encryptPassword, userController.postUser, 
 });
 
 app.post('/login', encryptionController.comparePassword, userController.login, tokenController.signToken, (req, res) => {
-  res.cookie('authorization', res.locals.token, {httpOnly: true});
+  res.cookie('token', res.locals.token, {httpOnly: true});
   res.status(200).json(res.locals.result);
 });
 
@@ -81,11 +86,16 @@ io.on('connection', function(socket) {
   // });
 });
 
-
+app.get('/*', (req, res) => {   
+  res.sendFile(path.join(__dirname, '../index.html'), (err) => {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+});
 
 //error handling
 app.use((req, res, next) => {
-  console.log(err)
   res.status(404).send("Sorry can't find that!")
 })
 

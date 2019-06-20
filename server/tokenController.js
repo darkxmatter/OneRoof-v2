@@ -15,13 +15,15 @@ module.exports = {
         return next(err);
       }
       req.token = decodedToken;
+      console.log(req.token)
       next();
     });
   },
-
+  
   signToken(req, res, next) {
     let token = jwt.sign({username: res.locals.username}, secret);
-    res.locals.token = token;
+    console.log(token);
+    res.locals.token = `Bearer ${token}`;
     next();
   }
 }
