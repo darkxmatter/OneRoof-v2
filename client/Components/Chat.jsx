@@ -10,7 +10,6 @@ class Chat extends Component {
       // state set to talk to manager.
       currentlyMessaging: 51,
       currentlyMessagingName: 'Gilbert',
-      messages: [],
     }
     this.socket = io();
 
@@ -37,6 +36,8 @@ class Chat extends Component {
   }
   
   changeMessageReceiver(user, name) {
+    console.log('user selected:', user);
+    console.log()
     this.socket.emit('join', user);
     this.setState({
       currentlyMessaging: user,
@@ -61,6 +62,7 @@ class Chat extends Component {
   }
 
   socketPostMessage(e){
+    console.log('are we here?');
     e.preventDefault();
     const msg = {
       text: this.state.messageToSend,
@@ -68,8 +70,7 @@ class Chat extends Component {
       receiver_id: this.state.currentlyMessaging,
       timestamp: null
     };
-
-    if(this.props.role === 'manager') {
+    if(this.props.role === 'Manager') {
       this.socket.emit('chat', msg, this.state.currentlyMessaging);
     }
     else this.socket.emit('chat', msg, this.props.userId);
@@ -88,7 +89,7 @@ class Chat extends Component {
       msgList: res
     }))
     .then(() => this.listeningSocket())
-    .then(() => {if(this.props.role !== 'manager') {
+    .then(() => {if(this.props.role !== 'Manager') {
       this.socket.on('join', this.props.userId)
     }})
     .catch(err => console.log(err));
@@ -112,8 +113,8 @@ class Chat extends Component {
             </div>);
           })}
         </div>
-        <textarea onChange={this.updateMessage}></textarea>
-        <button onClick={this.socketPostMessage}>Send Message</button>
+        <textarea onChange={this.updateMessage()}></textarea>
+        <button onClick={this.socketPostMessage()}>Send Message</button>
         <br />
         {
           this.props.role === 'Manager' &&
