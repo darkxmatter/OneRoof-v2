@@ -44,7 +44,6 @@ class AuthenticatedComponent extends React.Component {
         })
         .then(res => res.json())
         .then(res => {
-          console.log('RESPONSE', res);
           this.props.updateUsername(res.name);
           this.props.updateApt(res.apt_id);
           this.props.updateRole(res.role);

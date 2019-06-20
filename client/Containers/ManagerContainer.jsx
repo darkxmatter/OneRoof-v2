@@ -4,6 +4,7 @@ import MessageContainer from './MessageContainer.jsx';
 import PaymentContainer from './PaymentContainer.jsx';
 import EventsContainer from './EventsContainer.jsx';
 import { connect } from 'react-redux';
+import Logout from '../Components/LogoutComponent.jsx'
 
 const mapStateToProps = store => ({
   // add pertinent state here
@@ -41,6 +42,7 @@ class ManagerContainer extends Component {
             <Link to={`/payments`}>Payments</Link>
             <Link to={`/chat`}>Messages</Link>
             <Link to={`/events`}>Events</Link>
+            <Logout />
           </nav>
 
           <main>
