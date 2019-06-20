@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import * as userActions from '../Actions/userActions';
 
 const mapStateToProps = store => ({
@@ -26,6 +26,9 @@ const mapDispatchToProps = dispatch => ({
 class AuthenticatedComponent extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      redirect: false
+    }
   }
   
   componentDidMount() {
@@ -47,11 +50,19 @@ class AuthenticatedComponent extends React.Component {
           this.props.updateRole(res.role);
           this.props.updateId(res._id);
         });
+      } else {
+        this.setState({redirect: true});
       }
     });
   }
 
   render() {
+    if (this.state.redirect) {
+      return (
+        <Redirect to='/login' />
+      );
+    }
+
     return (
       <div>
         {this.props.children}
