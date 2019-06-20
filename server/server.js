@@ -20,8 +20,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../')));
 
 app.get('/verifyToken', tokenController.checkToken, (req, res) => {
-  res.send(req.token);
+  res.json(req.token);
 });
+
+app.get('/getUserInfo', userController.getUserInfo, (req, res) => {
+  res.json(res.locals.result[0]);
+})
 
 // routes for multiple user types
 app.post('/user',encryptionController.encryptPassword, userController.postUser, (req, res) => {

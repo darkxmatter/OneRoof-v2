@@ -26,6 +26,19 @@ module.exports = {
     });
   },
 
+  getUserInfo(req, res, next) {
+    const queryString = 'SELECT * FROM users WHERE name = $1';
+    const values = [req.headers.name];
+    db.query(queryString, values, (err, result) => {
+      if (err) {
+        return next(err);
+      }
+      res.locals.result = result.rows;
+      res.locals.username = req.headers.name;
+      return next();
+    });
+  },
+
   postEvent(req, res, next) {
     const queryString = 'INSERT INTO events (date, description, type, resident_id) VALUES ($1, $2, $3, $4) RETURNING description';
     const values = [req.body.date, req.body.description, req.body.type, req.body.resident_id];

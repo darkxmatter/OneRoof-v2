@@ -17,6 +17,11 @@ const userReducers = (state = initialState, action) => {
   let events;
 
   switch(action.type) {
+    case 'UPDATE_ID': 
+      return {
+        ...state,
+        userId: action.payload
+      }
 
     case types.UPDATE_USERNAME:
       return {
@@ -50,6 +55,7 @@ const userReducers = (state = initialState, action) => {
         return {
           ...state,
           apt: action.payload,
+          aptId: action.payload,
         }
 
     default:
