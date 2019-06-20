@@ -11,6 +11,7 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     publicPath: '/build/',
+    contentBase: '/',
     port: 8080,
     proxy: {
       '/': {

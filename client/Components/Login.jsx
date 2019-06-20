@@ -1,5 +1,28 @@
 import React from 'react';
 import AptNum from './ApartmentDropDown.jsx'
+import { connect } from 'react-redux';
+import * as userActions from '../Actions/userActions.js';
+
+
+const mapStateToProps = store => ({
+  // add pertinent state here
+  username: store.user.username,
+  password: store.user.password,
+  role: store.user.role,
+  login: store.user.login,
+  apt: store.user.apt,
+  aptList: store.user.aptList
+});
+
+
+const mapDispatchToProps = dispatch => ({
+  updateUsername: (name) => dispatch(userActions.updateUsername(name)),
+  updatePassword: (pass) => dispatch(userActions.updatePassword(pass)),
+  signup: () => dispatch(userActions.signup()),
+  signIn: () => dispatch(userActions.signIn()),
+  updateApt: (apt) => dispatch(userActions.updateApt(apt)),
+  updateRole: (role) => dispatch(userActions.updateRole(role)),
+})
 
 const Login = props => {
   const aptDrop = [];
@@ -44,4 +67,4 @@ const Login = props => {
     </div>
   </div>
 )};
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
