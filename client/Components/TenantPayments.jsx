@@ -20,8 +20,8 @@ class TenantPayments extends Component {
   
   updatePaymentDisplay(){
     fetch('/payments/history', {
-    method: 'GET',
-    headers: { apt_id: this.props.aptId }
+      method: 'GET',
+      headers: { apt_id: this.props.aptId }
     })
     .then(res => {
       return res.json();
@@ -30,7 +30,6 @@ class TenantPayments extends Component {
         return this.setState({paymentHistory: data})
     });
   }
-  
   
   render() {
     return (

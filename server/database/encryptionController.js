@@ -22,7 +22,7 @@ module.exports = {
     const queryString = 'SELECT * FROM users WHERE name = $1';
     const values = [req.body.data.name];
     db.query(queryString, values, (err, result) => {
-      if (err) {
+      if (err || !result.rows[0]) {
         return next(err);
       }
       bcrypt.compare(req.body.data.pwd, result.rows[0].pwd, (err, isMatch) => {

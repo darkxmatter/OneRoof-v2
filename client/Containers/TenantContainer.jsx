@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import MessageContainer from './MessageContainer.jsx';
 import PaymentContainer from './PaymentContainer.jsx';
 import EventsContainer from './EventsContainer.jsx';
-
+import Logout from '../Components/LogoutComponent.jsx'
 
 
 const mapStateToProps = store => ({
@@ -26,10 +26,13 @@ class TenantContainer extends Component {
     this.state = {
       eventList : []
     };
+    this.controller = new AbortController();
+    this.signal = this.controller.signal;
   }
 
   componentDidMount (){
     fetch('/event', {
+      signal: this.signal,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -43,6 +46,10 @@ class TenantContainer extends Component {
       }))
   }
 
+  componentWillUnmount() {
+    this.controller.abort();
+  }
+
   render() {
     console.log(this.props);
     return (
@@ -52,6 +59,7 @@ class TenantContainer extends Component {
           <Link to={"/payments"}>Payments</Link>
           <Link to={"/events"}>Events</Link>
           <Link to={"/chat"}>Messages</Link>
+          <Logout />
         </nav>
           <main>
             <Route path="/payments" render={(props) => <PaymentContainer aptId={this.props.aptId} aptList={this.props.aptList} userId={this.props.userId} role={this.props.role} isAuthed={true} />} />

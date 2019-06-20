@@ -27,13 +27,18 @@ app.get('/getUserInfo', userController.getUserInfo, (req, res) => {
   res.json(res.locals.result[0]);
 })
 
+app.get('/logout', (req, res) => {
+  res.clearCookie('/token')
+  // res.clearCookie('token', {path: '/', domain: 'localhost'});
+});
+
 // routes for multiple user types
 app.post('/user',encryptionController.encryptPassword, userController.postUser, (req, res) => {
   res.status(200).json(res.locals.result);
 });
 
 app.post('/login', encryptionController.comparePassword, userController.login, tokenController.signToken, (req, res) => {
-  res.cookie('token', res.locals.token, {httpOnly: true});
+  res.cookie('token', res.locals.token, {httpOnly: true, path: '/'});
   res.status(200).json(res.locals.result);
 });
 
