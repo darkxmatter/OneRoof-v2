@@ -74,24 +74,23 @@ io.on('connection', function(socket) {
   socket.on('disconnect', () => {
     console.log('user is disconnected phosure ')
   });
+  /**Not Rooom **/
+  socket.on('unjoin', (lastRoom)=> {
+    socket.leave(lastRoom);
+  });
 
   socket.on('join', (userId) => {
     socket.join(userId);
   });
+
   socket.on('chat', (sentMessages, roomId) => {
-    console.log('this is the msg from chat.js', sentMessages);
     /*    setting up query   */
     userController.socketDB(sentMessages);
     
-    console.log('are we back out here fam?')
     io.to(roomId).emit('chat', sentMessages);
     console.log('room: ', roomId);
 
   });
-  // io.on('chat', (sentMessages) => {
-  //   console.log(sentMessages);
-  //   io.emit('chat', sentMessages)
-  // });
 });
 
 app.get('/*', (req, res) => {   
