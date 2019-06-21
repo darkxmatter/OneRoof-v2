@@ -28,8 +28,9 @@ app.get('/getUserInfo', userController.getUserInfo, (req, res) => {
 })
 
 app.get('/logout', (req, res) => {
-  res.clearCookie('/token')
-  // res.clearCookie('token', {path: '/', domain: 'localhost'});
+  res.clearCookie('token')
+  res.redirect('http://localhost:8080/login');
+  res.send();
 });
 
 // routes for multiple user types
@@ -38,7 +39,7 @@ app.post('/user',encryptionController.encryptPassword, userController.postUser, 
 });
 
 app.post('/login', encryptionController.comparePassword, userController.login, tokenController.signToken, (req, res) => {
-  res.cookie('token', res.locals.token, {httpOnly: true, path: '/'});
+  res.cookie('token', res.locals.token, {httpOnly: true});
   res.status(200).json(res.locals.result);
 });
 

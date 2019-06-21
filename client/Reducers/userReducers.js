@@ -22,6 +22,12 @@ const userReducers = (state = initialState, action) => {
         ...state,
         userId: action.payload
       }
+    
+    case 'LOGOUT': 
+      return {
+        ...state,
+        login: false
+      }
 
     case types.UPDATE_USERNAME:
       return {
